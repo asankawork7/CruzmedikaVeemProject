@@ -23,4 +23,7 @@
     <artifact name="payProvider-sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/payProvider-sequence.xml</file>
     </artifact>
+    <artifact name="createContact-sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/createContact-sequence.xml</file>
+    </artifact>
 </artifacts>

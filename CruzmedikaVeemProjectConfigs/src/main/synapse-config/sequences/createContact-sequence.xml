@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="createContact-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="custom">
+        <property name="Test-------- :" value="createContact-sequence---------"/>
+    </log>
+    <payloadFactory media-type="json">
+        <format>{
+			     "email": "$1",
+			     "firstName": "$2",
+			     "lastName": "$3",
+			     "isoCountryCode": "$4",
+			     "phoneDialCode": "$5",
+			     "phoneNumber": "$6",
+			     "type": "$7"
+				}
+                     </format>
+        <args>
+            <arg evaluator="json" expression="$.email"/>
+            <arg evaluator="json" expression="$.firstName"/>
+            <arg evaluator="json" expression="$.lastName"/>
+            <arg evaluator="json" expression="$.isoCountryCode"/>
+            <arg evaluator="json" expression="$.phoneDialCode"/>
+            <arg evaluator="json" expression="$.phoneNumber"/>
+            <arg evaluator="json" expression="$.type"/>
+        </args>
+    </payloadFactory>
+    <log level="full"/>
+</sequence>

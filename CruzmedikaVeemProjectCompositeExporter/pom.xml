@@ -16,6 +16,7 @@
   <properties>
     <com.example.metadata_._cruzmedikaVeemAPI_swagger>capp/EnterpriseServiceBus</com.example.metadata_._cruzmedikaVeemAPI_swagger>
     <com.example.api_._cruzmedikaVeemAPI>capp/EnterpriseServiceBus</com.example.api_._cruzmedikaVeemAPI>
+    <com.example.sequence_._createContact-sequence>capp/EnterpriseServiceBus</com.example.sequence_._createContact-sequence>
     <com.example.endpoint_._VeemAPISandBox-Endpoint>capp/EnterpriseServiceBus</com.example.endpoint_._VeemAPISandBox-Endpoint>
     <com.example.metadata_._cruzmedikaVeemAPI_metadata>capp/EnterpriseServiceBus</com.example.metadata_._cruzmedikaVeemAPI_metadata>
     <com.example.sequence_._invokeveem-sequence>capp/EnterpriseServiceBus</com.example.sequence_._invokeveem-sequence>
@@ -34,6 +35,12 @@
     <dependency>
       <groupId>com.example.api</groupId>
       <artifactId>cruzmedikaVeemAPI</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>com.example.sequence</groupId>
+      <artifactId>createContact-sequence</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
