@@ -8,10 +8,34 @@
 			     "email": "$1",
 			     "firstName": "$2",
 			     "lastName": "$3",
-			     "isoCountryCode": "$4",
+			     "isoCountryCode": "US",
 			     "phoneDialCode": "$5",
 			     "phoneNumber": "$6",
-			     "type": "$7"
+			     "type": "$7",
+			     "bankAccount": {
+		          "bankAddress": {
+		               "city": "Houston",
+		               "line1": "Park123",
+		               "line2": "ABC street",
+		               "postalCode": "903238",
+		               "stateProvince": "Tx"
+		          },
+		          "bankAccountNumber": "13141414",
+		          "bankCode": "34223",
+		          "bankIfscBranchCode": "12",
+		          "bankInstitutionNumber": "32",
+		          "bankName": "Prime Bank",
+		          "isoCountryCode": "US"
+		    	 },
+			     "businessAddress": {
+			          "city": "Houston",
+			          "line1": "Park312",
+			          "line2": "wholeNug St",
+			          "postalCode": "9011",
+			          "stateProvince": "Tx"
+			     },
+			     "businessName": "cruzMedika",
+			     "externalBusinessId": 13214141
 				}
                      </format>
         <args>
