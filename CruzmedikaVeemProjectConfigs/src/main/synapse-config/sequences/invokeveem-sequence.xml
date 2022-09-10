@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="invokeveem-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <header name="Accept" scope="transport" value="application/json"/>
+    <header name="Content-Type" scope="transport" value="application/json"/>
+    <log level="custom">
+        <property name="Test-------- :" value="invokeveem-sequence---------"/>
+    </log>
+    <log category="DEBUG" level="full"/>
+    <call blocking="true">
+        <endpoint>
+            <http method="post" uri-template="https://sandbox-api.veem.com/veem/v1.1">
+                <suspendOnFailure>
+                    <initialDuration>-1</initialDuration>
+                    <progressionFactor>1</progressionFactor>
+                </suspendOnFailure>
+                <markForSuspension>
+                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                </markForSuspension>
+            </http>
+        </endpoint>
+    </call>
+    <log category="DEBUG" level="full"/>
+</sequence>

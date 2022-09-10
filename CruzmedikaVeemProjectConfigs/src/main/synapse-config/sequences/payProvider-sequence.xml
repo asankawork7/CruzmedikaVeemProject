@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="payProvider-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="custom">
+        <property name="Test-------- :" value="In payProvider-sequence---------"/>
+    </log>
+    <log level="full"/>
+    <property expression="json-eval($)" name="requestMessage" scope="default" type="STRING"/>
+    <log level="custom">
+        <property expression="json-eval($ctx:requestMessage.amount.currency)" name="Test-------- currency:"/>
+    </log>
+    <log level="custom">
+        <property expression="json-eval($ctx:requestMessage.payee.countryCode)" name="Test-------- countryCode:"/>
+    </log>
+    <filter description="checking currency" regex="USD" source="json-eval($ctx:requestMessage.amount.currency)">
+        <then>
+            <filter description="checking country" regex="US|CA" source="json-eval($ctx:requestMessage.payee.countryCode)">
+                <then>
+                    <log level="custom">
+                        <property name="Test-------- currency:" value="country is US or CA----"/>
+                    </log>
+                    <sequence key="oauth-call-sequence"/>
+                </then>
+                <else>
+                    <log level="custom">
+                        <property name="Test-------- currency:" value="country is not US or CA----"/>
+                    </log>
+                    <payloadFactory media-type="json">
+                        <format>{
+					     "fromCurrency": "USD",
+					     "fromAmount": "$1",
+					     "toCountry": "$2",
+					     "toCurrency": "CAD"				     
+					 	}
+                     </format>
+                        <args>
+                            <arg evaluator="json" expression="$ctx:requestMessage.amount.number"/>
+                            <arg evaluator="json" expression="$ctx:requestMessage.payee.countryCode"/>
+                        </args>
+                    </payloadFactory>
+                    <property name="REST_URL_POSTFIX" scope="axis2" type="STRING" value="exchangerates/quotes"/>
+                    <property expression="$trp:X-REQUEST-ID" name="REQUESTID" scope="default" type="STRING"/>
+                    <header expression="fn:concat($ctx:REQUESTID,'123')" name="X-REQUEST-ID" scope="transport"/>
+                    <sequence key="oauth-call-sequence"/>
+                    <log category="DEBUG" level="full"/>
+                    <property expression="json-eval($)" name="quoteResponseMessage" scope="default" type="STRING"/>
+                    <property expression="json-eval($.toAmount)" name="convertedAmount" scope="default" type="STRING"/>
+                    <filter description="checking response amount" regex="false" source="boolean($ctx:convertedAmount)">
+                        <then>
+                            <log level="custom">
+                                <property name="Test-------- :" value="Didnt get converted amount--------Duplicate composite key-"/>
+                            </log>
+                            <log category="DEBUG" level="full"/>
+                        </then>
+                        <else>
+                            <log level="custom">
+                                <property name="Test-------- :" value="Got converted amount---------"/>
+                                <property expression="$ctx:convertedAmount" name="Test-------- convertedAmount:"/>
+                            </log>
+                            <payloadFactory media-type="json">
+                                <format> {
+								    "amount": {
+								      "currency": "CAD",
+								      "number": "$1"
+								    },
+								    "payee": {
+								      "countryCode": "$2",
+								      "email": "$3",
+								      "firstName": "$4",
+								      "lastName": "$5",
+								      "type": "$6",
+								      "phone": "$7"
+								    }
+								  }
+                     </format>
+                                <args>
+                                    <arg evaluator="json" expression="$ctx:quoteResponseMessage.toAmount"/>
+                                    <arg evaluator="json" expression="$ctx:requestMessage.payee.countryCode"/>
+                                    <arg evaluator="json" expression="$ctx:requestMessage.payee.email"/>
+                                    <arg evaluator="json" expression="$ctx:requestMessage.payee.firstName"/>
+                                    <arg evaluator="json" expression="$ctx:requestMessage.payee.lastName"/>
+                                    <arg evaluator="json" expression="$ctx:requestMessage.payee.type"/>
+                                    <arg evaluator="json" expression="$ctx:requestMessage.payee.phone"/>
+                                </args>
+                            </payloadFactory>
+                            <property name="REST_URL_POSTFIX" scope="axis2" type="STRING" value="payments"/>
+                            <header expression="$ctx:REQUESTID" name="X-REQUEST-ID" scope="transport"/>
+                            <log category="DEBUG" level="full"/>
+                            <sequence key="oauth-call-sequence"/>
+                            <log category="DEBUG" level="full"/>
+                        </else>
+                    </filter>
+                </else>
+            </filter>
+        </then>
+        <else>
+            <log level="custom">
+                <property name="Test-------- currency:" value="Currency is not USD"/>
+            </log>
+            <sequence key="oauth-call-sequence"/>
+        </else>
+    </filter>
+</sequence>

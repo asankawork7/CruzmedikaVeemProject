@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="cruzmedikaVeemAPI" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/cruzmedikaVeemAPI.xml</file>
+    </artifact>
+    <artifact name="cruzmedikaVeemAPI_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/cruzmedikaVeemAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="cruzmedikaVeemAPI_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/cruzmedikaVeemAPI_metadata.yaml</file>
+    </artifact>
+    <artifact name="oauth2-sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/oauth2-sequence.xml</file>
+    </artifact>
+    <artifact name="oauth-call-sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/oauth-call-sequence.xml</file>
+    </artifact>
+    <artifact name="VeemAPISandBox-Endpoint" groupId="com.example.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/VeemAPISandBox-Endpoint.xml</file>
+    </artifact>
+    <artifact name="invokeveem-sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/invokeveem-sequence.xml</file>
+    </artifact>
+    <artifact name="payProvider-sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/payProvider-sequence.xml</file>
+    </artifact>
+</artifacts>

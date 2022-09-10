@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="oauth2-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <!-- token generation to the oauth server's token endpoint -->
+    <!-- add the base64 encoded credentials -->
+    <property name="client-authorization-header" scope="default" type="STRING" value="Q3J1ek1lZGlrYVNCLWtEYVFyZ2VHTUs6NDQ2OTYyNmMtMzAzNy00ZTVkLWI5ZDItMDJhZDNjMTI5Yzlk"/>
+    <property expression="json-eval($)" name="request-body" scope="default" type="STRING"/>
+    <property expression="get-property('axis2', 'REST_URL_POSTFIX')" name="resource" scope="default" type="STRING"/>
+    <!-- creating a request payload for client_credentials -->
+    <payloadFactory media-type="xml">
+        <format>
+            <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                <soapenv:Body>
+                    <root xmlns="">
+                        <grant_type>client_credentials</grant_type>
+                    </root>
+                </soapenv:Body>
+            </soapenv:Envelope>
+        </format>
+        <args/>
+    </payloadFactory>
+    <!-- set related headers to call the token endpoint -->
+    <header expression="fn:concat('Basic ', get-property('client-authorization-header'))" name="Authorization" scope="transport"/>
+    <header name="Content-Type" scope="transport" value="application/x-www-form-urlencoded"/>
+    <property name="messageType" scope="axis2" type="STRING" value="application/x-www-form-urlencoded"/>
+    <property name="REST_URL_POSTFIX" scope="axis2" type="STRING" value=""/>
+    <!-- change the token endpoint -->
+    <call blocking="true">
+        <endpoint>
+            <http method="post" uri-template="https://sandbox-api.veem.com/oauth/token">
+                <suspendOnFailure>
+                    <initialDuration>-1</initialDuration>
+                    <progressionFactor>1</progressionFactor>
+                </suspendOnFailure>
+                <markForSuspension>
+                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                </markForSuspension>
+            </http>
+        </endpoint>
+    </call>
+    <!-- append the acquired access token and make the call to the backend service -->
+    <property expression="json-eval($.access_token)" name="bearer-token" scope="default" type="STRING"/>
+    <property expression="get-property('resource')" name="REST_URL_POSTFIX" scope="axis2" type="STRING"/>
+    <header expression="fn:concat('Bearer ', get-property('bearer-token'))" name="Authorization" scope="transport"/>
+    <payloadFactory media-type="json">
+        <format>$1</format>
+        <args>
+            <arg evaluator="xml" expression="get-property('request-body')"/>
+        </args>
+    </payloadFactory>
+</sequence>

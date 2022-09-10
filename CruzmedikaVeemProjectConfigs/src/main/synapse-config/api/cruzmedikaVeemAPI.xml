@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/cruzmedikaVeem" name="cruzmedikaVeemAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" url-mapping="/CreateProviderUser">
+        <inSequence>
+            <property name="REST_URL_POSTFIX" scope="axis2" type="STRING" value="contacts"/>
+            <sequence key="oauth-call-sequence"/>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" url-mapping="/GetLinkProviderInfoPage">
+        <inSequence>
+            <payloadFactory media-type="json">
+                <format>{
+  					"resultCode": "Ok",
+ 					"resultMessage": "Page to Update Provider Information",
+  					"LinkUpdateProviderUser": "https: //apps.veem.com/CustomerApp/o/signin"
+}
+</format>
+                <args/>
+            </payloadFactory>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" url-mapping="/SearchProviderUser">
+        <inSequence>
+            <property expression="$url:email" name="email" scope="default" type="STRING"/>
+            <header name="Accept" scope="transport" value="application/json"/>
+            <header name="Content-Type" scope="transport" value="application/json"/>
+            <property expression="fn:concat('customers?email=',$ctx:email)" name="REST_URL_POSTFIX" scope="axis2" type="STRING"/>
+            <sequence key="oauth2-sequence"/>
+            <call blocking="true">
+                <endpoint>
+                    <http method="get" uri-template="https://sandbox-api.veem.com/veem/v1.1/">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </call>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="POST" url-mapping="/PayProvider">
+        <inSequence>
+            <property name="REST_URL_POSTFIX" scope="axis2" type="STRING" value="payments"/>
+            <sequence key="payProvider-sequence"/>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

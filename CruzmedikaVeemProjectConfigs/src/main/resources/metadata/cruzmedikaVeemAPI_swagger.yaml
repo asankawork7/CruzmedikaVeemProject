@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: cruzmedikaVeemAPI
+  description: API Definition of cruzmedikaVeemAPI
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/cruzmedikaVeem
+paths:
+  /CreateProviderUser:
+    post:
+      requestBody:
+        description: Sample Payload
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object
+        required: false
+      responses:
+        default:
+          description: Default response
+  /GetLinkProviderInfoPage:
+    get:
+      responses:
+        default:
+          description: Default response
+  /SearchProviderUser:
+    get:
+      responses:
+        default:
+          description: Default response
+  /PayProvider:
+    post:
+      requestBody:
+        description: Sample Payload
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object
+        required: false
+      responses:
+        default:
+          description: Default response

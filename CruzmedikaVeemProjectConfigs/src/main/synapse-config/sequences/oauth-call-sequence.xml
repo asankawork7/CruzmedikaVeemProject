@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="oauth-call-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="DEBUG" level="full"/>
+    <sequence key="oauth2-sequence"/>
+    <log level="custom">
+        <property name="Test-------- :" value="In oauth-call-sequence---------"/>
+    </log>
+    <log category="DEBUG" level="full"/>
+    <sequence key="invokeveem-sequence"/>
+</sequence>
