@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="createContact-out-sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="custom">
+        <property name="Test-------- :" value="createContact-out-sequence---------"/>
+    </log>
+    <log level="full"/>
+    <payloadFactory media-type="json">
+        <format>{
+			     resultCode: "$1",
+			     resultMessage: "$2"
+				}
+                     </format>
+        <args>
+            <arg evaluator="json" expression="$.code"/>
+            <arg evaluator="json" expression="$.message"/>
+        </args>
+    </payloadFactory>
+    <log level="full"/>
+</sequence>

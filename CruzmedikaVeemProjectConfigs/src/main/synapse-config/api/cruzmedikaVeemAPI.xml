@@ -5,6 +5,7 @@
             <property name="REST_URL_POSTFIX" scope="axis2" type="STRING" value="contacts"/>
             <sequence key="createContact-sequence"/>
             <sequence key="oauth-call-sequence"/>
+            <sequence key="createContact-out-sequence"/>
             <respond/>
         </inSequence>
         <outSequence/>
